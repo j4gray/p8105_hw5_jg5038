@@ -1,0 +1,29 @@
+---
+title: "p8105_hw5_jg5038"
+author: "Julia Gray"
+date: "2025-11-05"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+#these options were messing up my fig.height 
+#knitr::opts_chunk$set(
+#  fig.width = 6,
+#  fig.asp = .6
+#)
+
+knitr::opts_chunk$set(
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
