@@ -84,5 +84,6 @@ bday_sim_results |>
   geom_line()
 ```
 
+### Problem 2
 Problem 2 = if you're study is underpowered, you're going to overestimate effect size. If only see significant results = not getting idea of what real value is
 
