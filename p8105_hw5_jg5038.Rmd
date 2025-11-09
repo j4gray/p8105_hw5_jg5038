@@ -27,3 +27,62 @@ options(
 
 scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
+```
+
+## Problem 1: Birthday problem
+
+```{r}
+#define data generating mechanism
+birthdays = sample(1:365, 5, replace = TRUE)
+
+#run the analysis
+repeated_bday = length(unique(birthdays)) < 5
+
+#return the result
+repeated_bday
+```
+
+
+put this in a function
+
+```{r}
+bday_sim = function(n_room) {
+  
+  birthdays = sample(1:365, n_room, replace = TRUE)
+
+  repeated_bday = length(unique(birthdays)) < n_room
+
+  repeated_bday
+}
+
+#bday_sim(20)
+```
+
+```{r}
+bday_sim_results = 
+  expand_grid(
+    bdays = 5:50,
+    iter = 1:1000
+  ) |> 
+  mutate(
+    result = map_lgl(bdays, bday_sim)
+  ) |> 
+  group_by (
+    bdays
+  ) |> 
+  summarize(
+    prob_repeat = mean(result)
+  )
+```
+
+plot this 
+
+```{r}
+bday_sim_results |> 
+  ggplot(aes(x = bdays, y = prob_repeat)) +
+  geom_point() +
+  geom_line()
+```
+
+Problem 2 = if you're study is underpowered, you're going to overestimate effect size. If only see significant results = not getting idea of what real value is
+
