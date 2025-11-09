@@ -75,7 +75,7 @@ bday_sim_results =
   )
 ```
 
-plot this 
+Plot results:
 
 ```{r}
 bday_sim_results |> 
