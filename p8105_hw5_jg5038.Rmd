@@ -75,7 +75,7 @@ bday_sim_results =
   )
 ```
 
-Plot results:
+Plot results (test):
 
 ```{r}
 bday_sim_results |> 
