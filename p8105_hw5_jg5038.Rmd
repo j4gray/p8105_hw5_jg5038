@@ -90,9 +90,9 @@ bday_sim_results |>
   )
 ```
 
-### Problem 2
-Problem 2 = if you're study is underpowered, you're going to overestimate effect size. If only see significant results = not getting idea of what real value is
+The probability of 2 people sharing a birthday is hits 50% when the group size is at least `r min(pull(filter(bday_sim_results, prob_repeat > 0.5), bdays))`.
 
+### Problem 2
 ```{r}
 #set model params
 n = 30
@@ -160,10 +160,8 @@ norm_sim_results |>
   )
 ```
 
-Comment:
+We can see there is a positive correlation between effect size and power. When the effect size is small, the power is low meaning the frequency of null hypothesis getting rejected goes down. As the effect size goes up the power approaches 1, meaning the null hypothesis is more frequently getting rejected.
 
-Make a plot showing the average estimate of 𝜇̂ on the y axis and the true value of 𝜇 on the x axis. Make a second plot (or overlay on the first) the average estimate of 𝜇̂  only in samples for which the null was rejected on the y axis and the true value of 𝜇 on the x axis. Is the sample average of 𝜇̂ across tests for which the null is rejected approximately equal to the true value of 𝜇
-? Why or why not?
 
 ```{r}
 avg_estimates = norm_sim_results |> 
@@ -191,6 +189,8 @@ rbind(all_sample_avg_estimates, null_reject_avg_estimates) |>
     y = "Average Estimate"
   )
 ```
+
+At larger effect sizes we can see that $\hat{\mu}$  is approximately equal to the true ${\mu}$. When the effect size is low, the power is low and we frequently fail to reject the null hypothesis. 
 
 ### Problem 3
 
@@ -251,6 +251,25 @@ prop_test_all_cities =
 prop_test_all_cities |> 
   knitr::kable(digits = 3)
 ```
+
+Graph the results:
+
+```{r fig.height=6.5}
+prop_test_all_cities |> 
+  mutate(
+    city_state = fct_reorder(city_state, estimate)
+    ) |> 
+  ggplot(aes(y = city_state, x = estimate)) + 
+  geom_point() + 
+  geom_errorbar(aes(xmin = conf.low, xmax = conf.high)) +
+  xlim(0, 1) + 
+  labs(
+    title = "Proportion of Unsolved Homicides by City",
+    y = "City",
+    x = "Proportion Estimate (CI)"
+  )
+```
+
 
 
 
