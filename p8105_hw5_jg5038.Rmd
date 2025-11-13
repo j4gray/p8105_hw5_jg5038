@@ -192,6 +192,28 @@ rbind(all_sample_avg_estimates, null_reject_avg_estimates) |>
   )
 ```
 
+### Problem 3
+
+```{r}
+homicide_df = read.csv("https://raw.githubusercontent.com/washingtonpost/data-homicides/master/homicide-data.csv") |> 
+  janitor::clean_names() |> 
+  mutate(
+    reported_date = as.Date(as.character(reported_date), format = "%y%m%d"),
+    city_state = paste(city, state, sep=", ")
+  )
+```
+
+The Washington Post dataset on homicides contains `r dim(homicide_df)[1]` observations. Each observation is a homicide and contains columns for `r colnames(homicide_df)`. 
+
+```{r}
+homicide_df |> 
+  filter(disposition %in% c("Closed without arrest", "Open/No arrest")) |> 
+  group_by(city_state) |> 
+  summarize(unsolved_homicides = n()) |> 
+  knitr::kable()
+```
+
+
 
 
 
