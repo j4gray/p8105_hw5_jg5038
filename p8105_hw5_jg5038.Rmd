@@ -213,6 +213,26 @@ homicide_df |>
   knitr::kable()
 ```
 
+Prop test for Baltimore:
+
+```{r}
+prop_test_baltimore = 
+  homicide_df |> 
+  filter(city_state == "Baltimore, MD") |> 
+  summarize(
+    n_unsolved = sum(disposition %in% c("Closed without arrest", "Open/No arrest")),
+    n_total = n()
+  ) |> 
+  with(prop.test(x = n_unsolved, n = n_total))
+
+prop_test_baltimore |> 
+  broom::tidy() |> 
+  select(estimate, conf.low, conf.high) |> 
+  knitr::kable()
+```
+
+Prop test for all cities:
+
 
 
 
