@@ -233,6 +233,26 @@ prop_test_baltimore |>
 
 Prop test for all cities:
 
+```{r}
+prop_test_all_cities = 
+  homicide_df |> 
+  group_by(city_state) |> 
+  summarize(
+    n_unsolved = sum(disposition %in% c("Closed without arrest", "Open/No arrest")),
+    n_total = n()
+  ) |> 
+  mutate(
+    prop_test = map2(n_unsolved, n_total, prop.test),
+    results = map(prop_test, broom::tidy)
+  ) |> 
+  unnest(results) |> 
+  select(city_state, estimate, conf.low, conf.high)
+
+prop_test_all_cities |> 
+  knitr::kable(digits = 3)
+```
+
+
 
 
 
