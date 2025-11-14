@@ -31,19 +31,7 @@ scale_fill_discrete = scale_fill_viridis_d
 
 ## Problem 1: Birthday problem
 
-```{r}
-#define data generating mechanism
-birthdays = sample(1:365, 5, replace = TRUE)
-
-#run the analysis
-repeated_bday = length(unique(birthdays)) < 5
-
-#return the result
-repeated_bday
-```
-
-
-put this in a function
+Create a function to simulate birhday sampling in a room with a set number of subjects (n_room):
 
 ```{r}
 bday_sim = function(n_room) {
@@ -57,6 +45,8 @@ bday_sim = function(n_room) {
 
 #bday_sim(20)
 ```
+
+Run the simulation 1000 times for groups of size 5-50:
 
 ```{r}
 bday_sim_results = 
@@ -75,7 +65,7 @@ bday_sim_results =
   )
 ```
 
-Plot results (test):
+Plot results:
 
 ```{r}
 bday_sim_results |> 
@@ -93,6 +83,9 @@ bday_sim_results |>
 The probability of 2 people sharing a birthday is hits 50% when the group size is at least `r min(pull(filter(bday_sim_results, prob_repeat > 0.5), bdays))`.
 
 ### Problem 2
+
+Set model params and create function:
+
 ```{r}
 #set model params
 n = 30
@@ -105,17 +98,18 @@ alpha = 0.05
 #create simulation function
 norm_dist_sim_fn = function (mu = 0, n = 30, sigma = 5, alpha = 0.05) {
   
-  #generate data
-  norm_vec = rnorm(n = n, mean = mu, sd = sigma)
+#generate data
+norm_vec = rnorm(n = n, mean = mu, sd = sigma)
   
-  #run ttest and return estimate & p.value
-  t.test(norm_vec, mu = 0, conf.level = 1-alpha) |> 
-    broom::tidy() |> 
-    select(estimate, p.value)
+#run ttest and return estimate & p.value
+t.test(norm_vec, mu = 0, conf.level = 1-alpha) |> 
+  broom::tidy() |> 
+  select(estimate, p.value)
 }
 ```
 
 Run for mu = 0
+
 ```{r}
 #test = norm_dist_sim_fn(mu=mu)
 
@@ -130,6 +124,11 @@ norm_sim_results_0 =
   ) |> 
   unnest(t_results)
 
+```
+
+Run for mu in {1, 2, 3, 4, 5, 6}
+
+```{r}
 #run for mu in {1, 2, 3, 4, 5, 6}
 norm_sim_results = 
   expand_grid(
